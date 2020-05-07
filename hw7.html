@@ -374,81 +374,73 @@ summary {
 <h1>problem 2</h1>
 <pre class="r"><code># 1. Random Intercept model (gender and attitude are fixed)
  # THESE TWO ARE EQUIVALENT
-lmm1 = lme(frequency ~ gender + attitude, random = ~1|subject, data = polite_data, method = &quot;ML&quot;)
+lmm1 = lme(frequency ~ gender + attitude, random = ~1|subject, data = polite_data, method = &quot;REML&quot;)
 summary(lmm1)</code></pre>
-<pre><code>## Linear mixed-effects model fit by maximum likelihood
+<pre><code>## Linear mixed-effects model fit by REML
 ##  Data: polite_data 
 ##        AIC      BIC    logLik
-##   825.6363 837.7904 -407.8182
+##   806.0805 818.0527 -398.0402
 ## 
 ## Random effects:
 ##  Formula: ~1 | subject
 ##         (Intercept) Residual
-## StdDev:    19.47793 28.92813
+## StdDev:    24.45803 29.11537
 ## 
 ## Fixed effects: frequency ~ gender + attitude 
 ##                  Value Std.Error DF   t-value p-value
-## (Intercept)  256.98690 12.733461 77 20.182016  0.0000
-## genderM     -108.79762 17.424678  4 -6.243881  0.0034
-## attitudepol  -20.00238  6.428474 77 -3.111529  0.0026
+## (Intercept)  256.98690 15.154986 77 16.957251  0.0000
+## genderM     -108.79762 20.956235  4 -5.191659  0.0066
+## attitudepol  -20.00238  6.353495 77 -3.148248  0.0023
 ##  Correlation: 
 ##             (Intr) gendrM
-## genderM     -0.684       
-## attitudepol -0.252  0.000
+## genderM     -0.691       
+## attitudepol -0.210  0.000
 ## 
 ## Standardized Within-Group Residuals:
 ##        Min         Q1        Med         Q3        Max 
-## -2.3945323 -0.5728233 -0.2228552  0.4871624  3.3290916 
+## -2.3564422 -0.5658319 -0.2011979  0.4617895  3.2997610 
 ## 
 ## Number of Observations: 84
 ## Number of Groups: 6</code></pre>
-<pre class="r"><code># what are BLUPs?
-ranef(lmm1)</code></pre>
+<pre class="r"><code># BLUPs
+random.effects(lmm1)</code></pre>
 <pre><code>##    (Intercept)
-## F1  -12.915173
-## F2    9.675581
-## F3    3.239592
-## M3   26.599621
-## M4    4.508689
-## M7  -31.108310</code></pre>
-<pre class="r"><code>random.effects(lmm1)</code></pre>
-<pre><code>##    (Intercept)
-## F1  -12.915173
-## F2    9.675581
-## F3    3.239592
-## M3   26.599621
-## M4    4.508689
-## M7  -31.108310</code></pre>
-<pre class="r"><code># what are residuals
+## F1  -13.575831
+## F2   10.170522
+## F3    3.405309
+## M3   27.960288
+## M4    4.739325
+## M7  -32.699613</code></pre>
+<pre class="r"><code># residuals
 residuals(lmm1)</code></pre>
-<pre><code>##           F1           F1           F1           F1           F1           F1 
-## -10.76935066 -39.57173161  61.03064934  15.62826839 -20.16935066  42.82826839 
-##           F1           F1           F1           F1           F1           F1 
-##  26.73064934  32.72826839   7.83064934   8.32826839 -42.86935066 -13.37173161 
-##           F1           F1           F3           F3           F3           F3 
-## -27.57173161 -69.26935066 -10.52411574 -22.92649669  -3.42411574  -9.22649669 
-##           F3           F3           F3           F3           F3           F3 
-##  26.77588426   5.77350331  35.17588426  46.57350331  -7.62411574  -7.72649669 
-##           F3           F3           F3           F3           M4           M4 
-## -13.72411574  18.57350331   4.17350331 -54.72411574 -21.99559397 -29.09797492 
-##           M4           M4           M4           M4           M4           M4 
-##  96.30440603 -37.79797492 -20.49559397  60.90202508  60.70440603  10.20202508 
-##           M4           M4           M4           M4           M4           M4 
-## -30.89559397 -25.79797492 -22.69559397 -16.49797492  -6.69797492  -6.19559397 
-##           M7           M7           M7           M7           M7           M7 
-## -10.97859473 -17.98097568 -14.87859473 -12.78097568 -11.17859473  -6.88097568 
-##           M7           M7           M7           M7           M7           M7 
-##   0.02140527   2.91902432  -3.37859473 -14.18097568  11.72140527  -8.88097568 
-##           M7           M7           F2           F2           F2           F2 
-##   7.31902432  10.52140527 -13.96010503 -35.36248598  -0.36010503  -6.96248598 
-##           F2           F2           F2           F2           F2           F2 
-##  42.73989497  35.13751402  -3.46010503  29.53751402  31.03989497  27.53751402 
-##           F2           F2           F2           F2           M3           M3 
-## -38.66010503 -40.76248598  14.33751402 -19.46010503  -0.98652558  14.01109346 
-##           M3           M3           M3           M3           M3           M3 
-## -12.38652558  24.91109346   5.41347442  11.31109346  52.71347442  16.11109346 
-##           M3           M3           M3           M3           M3           M3 
-##   5.91347442 -18.28890654  -8.08652558 -16.78890654 -13.68890654  -1.48652558 
+<pre><code>##          F1          F1          F1          F1          F1          F1 
+## -10.1086926 -38.9110735  61.6913074  16.2889265 -19.5086926  43.4889265 
+##          F1          F1          F1          F1          F1          F1 
+##  27.3913074  33.3889265   8.4913074   8.9889265 -42.2086926 -12.7110735 
+##          F1          F1          F3          F3          F3          F3 
+## -26.9110735 -68.6086926 -10.6898326 -23.0922136  -3.5898326  -9.3922136 
+##          F3          F3          F3          F3          F3          F3 
+##  26.6101674   5.6077864  35.0101674  46.4077864  -7.7898326  -7.8922136 
+##          F3          F3          F3          F3          M4          M4 
+## -13.8898326  18.4077864   4.0077864 -54.8898326 -22.2262298 -29.3286108 
+##          M4          M4          M4          M4          M4          M4 
+##  96.0737702 -38.0286108 -20.7262298  60.6713892  60.4737702   9.9713892 
+##          M4          M4          M4          M4          M4          M4 
+## -31.1262298 -26.0286108 -22.9262298 -16.7286108  -6.9286108  -6.4262298 
+##          M7          M7          M7          M7          M7          M7 
+##  -9.3872916 -16.3896725 -13.2872916 -11.1896725  -9.5872916  -5.2896725 
+##          M7          M7          M7          M7          M7          M7 
+##   1.6127084   4.5103275  -1.7872916 -12.5896725  13.3127084  -7.2896725 
+##          M7          M7          F2          F2          F2          F2 
+##   8.9103275  12.1127084 -14.4550462 -35.8574271  -0.8550462  -7.4574271 
+##          F2          F2          F2          F2          F2          F2 
+##  42.2449538  34.6425729  -3.9550462  29.0425729  30.5449538  27.0425729 
+##          F2          F2          F2          F2          M3          M3 
+## -39.1550462 -41.2574271  13.8425729 -19.9550462  -2.3471929  12.6504261 
+##          M3          M3          M3          M3          M3          M3 
+## -13.7471929  23.5504261   4.0528071   9.9504261  51.3528071  14.7504261 
+##          M3          M3          M3          M3          M3          M3 
+##   4.5528071 -19.6495739  -9.4471929 -18.1495739 -15.0495739  -2.8471929 
 ## attr(,&quot;label&quot;)
 ## [1] &quot;Residuals&quot;</code></pre>
 <pre class="r"><code>fixed.effects(lmm1)  # fixed effects coeff </code></pre>
@@ -456,129 +448,139 @@ residuals(lmm1)</code></pre>
 ##   256.98690  -108.79762   -20.00238</code></pre>
 <pre class="r"><code>random.effects(lmm1) # ordered random effects, BLUP (in this case, just b_i)</code></pre>
 <pre><code>##    (Intercept)
-## F1  -12.915173
-## F2    9.675581
-## F3    3.239592
-## M3   26.599621
-## M4    4.508689
-## M7  -31.108310</code></pre>
+## F1  -13.575831
+## F2   10.170522
+## F3    3.405309
+## M3   27.960288
+## M4    4.739325
+## M7  -32.699613</code></pre>
 <pre class="r"><code>fitted(lmm1)         # fixed+random for each subj in each visit</code></pre>
 <pre><code>##        F1        F1        F1        F1        F1        F1        F1        F1 
-## 224.06935 244.07173 224.06935 244.07173 224.06935 244.07173 224.06935 244.07173 
+## 223.40869 243.41107 223.40869 243.41107 223.40869 243.41107 223.40869 243.41107 
 ##        F1        F1        F1        F1        F1        F1        F3        F3 
-## 224.06935 244.07173 224.06935 244.07173 244.07173 224.06935 240.22412 260.22650 
+## 223.40869 243.41107 223.40869 243.41107 243.41107 223.40869 240.38983 260.39221 
 ##        F3        F3        F3        F3        F3        F3        F3        F3 
-## 240.22412 260.22650 240.22412 260.22650 240.22412 260.22650 240.22412 260.22650 
+## 240.38983 260.39221 240.38983 260.39221 240.38983 260.39221 240.38983 260.39221 
 ##        F3        F3        F3        F3        M4        M4        M4        M4 
-## 240.22412 260.22650 260.22650 240.22412 132.69559 152.69797 132.69559 152.69797 
+## 240.38983 260.39221 260.39221 240.38983 132.92623 152.92861 132.92623 152.92861 
 ##        M4        M4        M4        M4        M4        M4        M4        M4 
-## 132.69559 152.69797 132.69559 152.69797 132.69559 152.69797 132.69559 152.69797 
+## 132.92623 152.92861 132.92623 152.92861 132.92623 152.92861 132.92623 152.92861 
 ##        M4        M4        M7        M7        M7        M7        M7        M7 
-## 152.69797 132.69559  97.07859 117.08098  97.07859 117.08098  97.07859 117.08098 
+## 152.92861 132.92623  95.48729 115.48967  95.48729 115.48967  95.48729 115.48967 
 ##        M7        M7        M7        M7        M7        M7        M7        M7 
-##  97.07859 117.08098  97.07859 117.08098  97.07859 117.08098 117.08098  97.07859 
+##  95.48729 115.48967  95.48729 115.48967  95.48729 115.48967 115.48967  95.48729 
 ##        F2        F2        F2        F2        F2        F2        F2        F2 
-## 246.66011 266.66249 246.66011 266.66249 246.66011 266.66249 246.66011 266.66249 
+## 247.15505 267.15743 247.15505 267.15743 247.15505 267.15743 247.15505 267.15743 
 ##        F2        F2        F2        F2        F2        F2        M3        M3 
-## 246.66011 266.66249 246.66011 266.66249 266.66249 246.66011 154.78653 174.78891 
+## 247.15505 267.15743 247.15505 267.15743 267.15743 247.15505 156.14719 176.14957 
 ##        M3        M3        M3        M3        M3        M3        M3        M3 
-## 154.78653 174.78891 154.78653 174.78891 154.78653 174.78891 154.78653 174.78891 
+## 156.14719 176.14957 156.14719 176.14957 156.14719 176.14957 156.14719 176.14957 
 ##        M3        M3        M3        M3 
-## 154.78653 174.78891 174.78891 154.78653 
+## 156.14719 176.14957 176.14957 156.14719 
 ## attr(,&quot;label&quot;)
 ## [1] &quot;Fitted values&quot;</code></pre>
 <pre class="r"><code>#what are What is the covariance matrix for a subject Yi?
+#sigma_b squared (var of residuals)
+sigma_b_sq = as.numeric(VarCorr(lmm1)[1])
 
+#sigma squared (var of intercept)
+sigma_sq = as.numeric(VarCorr(lmm1)[2])
+
+diag_value = sigma_b_sq+sigma_sq
 
 #What is the covariance matrix for the REML estimates of fixed effects
-
-
-
-m1 = lmer(frequency ~ gender + attitude + (1|subject), REML = F, data = polite_data) #REML as FALSE because we wanna do LRT
+vcov(lmm1)  #???????????????????????????????????????????????????????? this doesnt give me the right answer</code></pre>
+<pre><code>##             (Intercept)       genderM   attitudepol
+## (Intercept)   229.67362 -2.195819e+02 -2.018345e+01
+## genderM      -219.58189  4.391638e+02  6.451438e-15
+## attitudepol   -20.18345  6.451438e-15  4.036690e+01</code></pre>
+<pre class="r"><code>m1 = lmer(frequency ~ gender + attitude + (1|subject), REML = T, data = polite_data) #equivalent to above
 summary(m1) # gives us beta&#39;s</code></pre>
-<pre><code>## Linear mixed model fit by maximum likelihood  [&#39;lmerMod&#39;]
+<pre><code>## Linear mixed model fit by REML [&#39;lmerMod&#39;]
 ## Formula: frequency ~ gender + attitude + (1 | subject)
 ##    Data: polite_data
 ## 
-##      AIC      BIC   logLik deviance df.resid 
-##    825.6    837.8   -407.8    815.6       79 
+## REML criterion at convergence: 796.1
 ## 
 ## Scaled residuals: 
 ##     Min      1Q  Median      3Q     Max 
-## -2.3945 -0.5728 -0.2229  0.4872  3.3291 
+## -2.3564 -0.5658 -0.2012  0.4618  3.2998 
 ## 
 ## Random effects:
 ##  Groups   Name        Variance Std.Dev.
-##  subject  (Intercept) 379.4    19.48   
-##  Residual             836.8    28.93   
+##  subject  (Intercept) 598.2    24.46   
+##  Residual             847.7    29.12   
 ## Number of obs: 84, groups:  subject, 6
 ## 
 ## Fixed effects:
 ##             Estimate Std. Error t value
-## (Intercept)  256.987     12.504  20.552
-## genderM     -108.798     17.111  -6.358
-## attitudepol  -20.002      6.313  -3.169
+## (Intercept)  256.987     15.155  16.957
+## genderM     -108.798     20.956  -5.192
+## attitudepol  -20.002      6.353  -3.148
 ## 
 ## Correlation of Fixed Effects:
 ##             (Intr) gendrM
-## genderM     -0.684       
-## attitudepol -0.252  0.000</code></pre>
+## genderM     -0.691       
+## attitudepol -0.210  0.000</code></pre>
 <pre class="r"><code>ranef(m1)   #gives BLUP</code></pre>
 <pre><code>## $subject
 ##    (Intercept)
-## F1  -12.915239
-## F2    9.675631
-## F3    3.239608
-## M3   26.599756
-## M4    4.508712
-## M7  -31.108468
+## F1  -13.575832
+## F2   10.170523
+## F3    3.405309
+## M3   27.960290
+## M4    4.739325
+## M7  -32.699616
 ## 
 ## with conditional variances for &quot;subject&quot;</code></pre>
 </div>
 <div id="problem-3" class="section level1">
 <h1>problem 3</h1>
-<pre class="r"><code>lmm2 = lme(frequency ~ gender + attitude + gender*attitude, random = ~1|subject, data = polite_data, method = &quot;ML&quot;)
+<pre class="r"><code>lmm2 = lme(frequency ~ gender + attitude + gender*attitude, random = ~1|subject, data = polite_data, method = &quot;REML&quot;)
 summary(lmm2)</code></pre>
-<pre><code>## Linear mixed-effects model fit by maximum likelihood
+<pre><code>## Linear mixed-effects model fit by REML
 ##  Data: polite_data 
-##        AIC      BIC    logLik
-##   826.2508 840.8357 -407.1254
+##        AIC     BIC    logLik
+##   799.8018 814.094 -393.9009
 ## 
 ## Random effects:
 ##  Formula: ~1 | subject
 ##         (Intercept) Residual
-## StdDev:    19.50493 28.67234
+## StdDev:    24.46382 29.04716
 ## 
 ## Fixed effects: frequency ~ gender + attitude + gender * attitude 
 ##                          Value Std.Error DF   t-value p-value
-## (Intercept)          260.68571 13.200754 76 19.747790  0.0000
-## genderM             -116.19524 18.668685  4 -6.224072  0.0034
-## attitudepol          -27.40000  9.066991 76 -3.021951  0.0034
-## genderM:attitudepol   14.79524 12.822662 76  1.153835  0.2522
+## (Intercept)          260.68571 15.481307 76 16.838740  0.0000
+## genderM             -116.19524 21.893875  4 -5.307203  0.0061
+## attitudepol          -27.40000  8.964149 76 -3.056620  0.0031
+## genderM:attitudepol   14.79524 12.677221 76  1.167073  0.2468
 ##  Correlation: 
 ##                     (Intr) gendrM atttdp
 ## genderM             -0.707              
-## attitudepol         -0.343  0.243       
-## genderM:attitudepol  0.243 -0.343 -0.707
+## attitudepol         -0.290  0.205       
+## genderM:attitudepol  0.205 -0.290 -0.707
 ## 
 ## Standardized Within-Group Residuals:
 ##        Min         Q1        Med         Q3        Max 
-## -2.2856421 -0.5245601 -0.1718554  0.4929026  3.2293520 
+## -2.2344163 -0.5454437 -0.1646159  0.4697182  3.1800944 
 ## 
 ## Number of Observations: 84
 ## Number of Groups: 6</code></pre>
 <pre class="r"><code>random.effects(lmm2)</code></pre>
 <pre><code>##    (Intercept)
-## F1  -12.950999
-## F2    9.702421
-## F3    3.248578
-## M3   26.673406
-## M4    4.521196
-## M7  -31.194602</code></pre>
-<pre class="r"><code>anova(lmm1, lmm2)</code></pre>
-<pre><code>##      Model df      AIC      BIC    logLik   Test  L.Ratio p-value
-## lmm1     1  5 825.6363 837.7904 -407.8182                        
-## lmm2     2  6 826.2508 840.8357 -407.1254 1 vs 2 1.385523  0.2392</code></pre>
+## F1  -13.582262
+## F2   10.175340
+## F3    3.406922
+## M3   27.973534
+## M4    4.741570
+## M7  -32.715104</code></pre>
+<pre class="r"><code>lmm01 = lme(frequency ~ gender + attitude, random = ~1|subject, data = polite_data, method = &quot;ML&quot;)
+lmm02 = lme(frequency ~ gender + attitude + gender*attitude, random = ~1|subject, data = polite_data, method = &quot;ML&quot;)
+
+anova(lmm01, lmm02)</code></pre>
+<pre><code>##       Model df      AIC      BIC    logLik   Test  L.Ratio p-value
+## lmm01     1  5 825.6363 837.7904 -407.8182                        
+## lmm02     2  6 826.2508 840.8357 -407.1254 1 vs 2 1.385523  0.2392</code></pre>
 <pre class="r"><code>#p value 0.24 &gt; 0.05 we fail to reject reject the null and conclude that the interaction term is not significant (simple model is preferrable)</code></pre>
 </div>
 <div id="problem-4" class="section level1">
@@ -614,7 +616,16 @@ summary (lmm3)</code></pre>
 ## 
 ## Number of Observations: 84
 ## Number of Groups: 6</code></pre>
-<pre class="r"><code>fixed.effects(lmm3)</code></pre>
+<pre class="r"><code># What is the covariance structure for a subject Yi
+# should use formula on page 8 of lecture 19
+VarCorr(lmm3)</code></pre>
+<pre><code>## subject = pdLogChol(1 + attitude) 
+##             Variance     StdDev       Corr  
+## (Intercept) 5.981953e+02 24.458032213 (Intr)
+## attitudepol 1.079496e-05  0.003285569 0     
+## Residual    8.477049e+02 29.115372269</code></pre>
+<pre class="r"><code>#What are the fixed effect, random effect, and BLUP for the first female subject in scenario 1 with polite attitude?
+fixed.effects(lmm3)</code></pre>
 <pre><code>## (Intercept)     genderM attitudepol 
 ##   256.98691  -108.79762   -20.00238</code></pre>
 <pre class="r"><code>random.effects(lmm3)</code></pre>
@@ -625,53 +636,7 @@ summary (lmm3)</code></pre>
 ## M3   27.960288  1.009764e-06
 ## M4    4.739325  7.794162e-07
 ## M7  -32.699612 -8.000404e-07</code></pre>
-<pre class="r"><code>m3 &lt;- lmer(frequency ~ gender + attitude + (1+attitude|subject), data = polite_data) #why not equivalent</code></pre>
-<pre><code>## boundary (singular) fit: see ?isSingular</code></pre>
-<pre class="r"><code>summary (m3)</code></pre>
-<pre><code>## Linear mixed model fit by REML [&#39;lmerMod&#39;]
-## Formula: frequency ~ gender + attitude + (1 + attitude | subject)
-##    Data: polite_data
-## 
-## REML criterion at convergence: 796.1
-## 
-## Scaled residuals: 
-##     Min      1Q  Median      3Q     Max 
-## -2.3482 -0.5751 -0.2124  0.4770  3.2953 
-## 
-## Random effects:
-##  Groups   Name        Variance Std.Dev. Corr
-##  subject  (Intercept) 578.7657 24.058       
-##           attitudepol   0.6497  0.806   1.00
-##  Residual             847.5500 29.113       
-## Number of obs: 84, groups:  subject, 6
-## 
-## Fixed effects:
-##             Estimate Std. Error t value
-## (Intercept)  257.588     15.039  17.128
-## genderM     -109.999     20.933  -5.255
-## attitudepol  -20.002      6.361  -3.144
-## 
-## Correlation of Fixed Effects:
-##             (Intr) gendrM
-## genderM     -0.696       
-## attitudepol -0.177  0.000
-## convergence code: 0
-## boundary (singular) fit: see ?isSingular</code></pre>
-<pre class="r"><code>fixed.effects(m3)</code></pre>
-<pre><code>## (Intercept)     genderM attitudepol 
-##   257.58758  -109.99898   -20.00238</code></pre>
-<pre class="r"><code>random.effects(m3)</code></pre>
-<pre><code>## $subject
-##    (Intercept) attitudepol
-## F1  -13.955574  -0.4675638
-## F2    9.437597   0.3161947
-## F3    2.745631   0.0919889
-## M3   28.054902   0.9399439
-## M4    5.301201   0.1776100
-## M7  -31.583758  -1.0581737
-## 
-## with conditional variances for &quot;subject&quot;</code></pre>
-<pre class="r"><code># What is the covariance structure for a subject Yi</code></pre>
+<pre class="r"><code># answers are different from the key(???)</code></pre>
 </div>
 
 

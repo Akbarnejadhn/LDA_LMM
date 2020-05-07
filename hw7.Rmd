@@ -24,12 +24,13 @@ polite_data = read_csv("HW7-politeness_data.csv")
 
 # 1. Random Intercept model (gender and attitude are fixed)
  # THESE TWO ARE EQUIVALENT
-lmm1 = lme(frequency ~ gender + attitude, random = ~1|subject, data = polite_data, method = "ML")
+lmm1 = lme(frequency ~ gender + attitude, random = ~1|subject, data = polite_data, method = "REML")
 summary(lmm1)
-# what are BLUPs?
-ranef(lmm1)
+
+# BLUPs
 random.effects(lmm1)
-# what are residuals
+
+# residuals
 residuals(lmm1)
 
 fixed.effects(lmm1)  # fixed effects coeff 
@@ -37,24 +38,37 @@ random.effects(lmm1) # ordered random effects, BLUP (in this case, just b_i)
 fitted(lmm1)         # fixed+random for each subj in each visit
 
 #what are What is the covariance matrix for a subject Yi?
+#sigma_b squared (var of residuals)
+sigma_b_sq = as.numeric(VarCorr(lmm1)[1])
 
+#sigma squared (var of intercept)
+sigma_sq = as.numeric(VarCorr(lmm1)[2])
+
+diag_value = sigma_b_sq+sigma_sq
 
 #What is the covariance matrix for the REML estimates of fixed effects
+vcov(lmm1)  #???????????????????????????????????????????????????????? this doesnt give me the right answer
 
 
-
-m1 = lmer(frequency ~ gender + attitude + (1|subject), REML = F, data = polite_data) #REML as FALSE because we wanna do LRT
+m1 = lmer(frequency ~ gender + attitude + (1|subject), REML = T, data = polite_data) #equivalent to above
 summary(m1) # gives us beta's
 ranef(m1)   #gives BLUP
 ```
 
 # problem 3
 ```{r}
-lmm2 = lme(frequency ~ gender + attitude + gender*attitude, random = ~1|subject, data = polite_data, method = "ML")
+lmm2 = lme(frequency ~ gender + attitude + gender*attitude, random = ~1|subject, data = polite_data, method = "REML")
 summary(lmm2)
 random.effects(lmm2)
+```
 
-anova(lmm1, lmm2)
+
+```{r}
+
+lmm01 = lme(frequency ~ gender + attitude, random = ~1|subject, data = polite_data, method = "ML")
+lmm02 = lme(frequency ~ gender + attitude + gender*attitude, random = ~1|subject, data = polite_data, method = "ML")
+
+anova(lmm01, lmm02)
 #p value 0.24 > 0.05 we fail to reject reject the null and conclude that the interaction term is not significant (simple model is preferrable)
 ```
 
@@ -63,14 +77,14 @@ anova(lmm1, lmm2)
 
 lmm3 = lme (frequency ~ gender+attitude, random = ~ 1+ attitude | subject, data = polite_data, method = "REML")
 summary (lmm3)
-fixed.effects(lmm3)
-random.effects(lmm3)
-
-m3 <- lmer(frequency ~ gender + attitude + (1+attitude|subject), data = polite_data) #why not equivalent
-summary (m3)
-fixed.effects(m3)
-random.effects(m3)
 
 # What is the covariance structure for a subject Yi
+# should use formula on page 8 of lecture 19
+VarCorr(lmm3)
+
+#What are the fixed effect, random effect, and BLUP for the first female subject in scenario 1 with polite attitude?
+fixed.effects(lmm3)
+random.effects(lmm3)
+# answers are different from the key(???)
 ```
 
